@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-	let cardFields = document.querySelectorAll(".card-container")
 	let timerId = undefined
 
 	const startTimer = () => {
@@ -24,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	const createClickHandler = () => {
-		let openned = 0 
+		let openned = 0
 		let flipped = undefined
 		return ({ target }) => {
 			console.log()
@@ -51,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 							openned++
 							if (openned === 6) {
-                                openned = 0
+								openned = 0
 								stopGame("win")
 							}
 						} else {
@@ -68,9 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	const startGame = () => {
 		clearInterval(timerId)
 		document.querySelectorAll(".opened").forEach((elem) => elem.classList.remove("opened"))
-		let cardImageNodes = getDoubledRandomImageNodes(6)
-		moveCardsIntoDOM(cardImageNodes)
-		startTimer()
+        setTimeout(()=>{
+            let cardImageNodes = getDoubledRandomImageNodes(6)
+            moveCardsIntoDOM(cardImageNodes)
+            startTimer()
+        },1000)
 	}
 	const stopGame = (result = "win") => {
 		clearInterval(timerId)
@@ -87,10 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		let resultBanner = document.createDocumentFragment()
 		resultBanner.appendChild(document.createElement("span"))
 	}
-	document.querySelector("#game-button").addEventListener("click", (event) => {
-		event.preventDefault()
-		startGame()
-	})
 	const getDoubledRandomImageNodes = (amountOfElements) => {
 		if (amountOfElements <= 0) return []
 		const getCardNames = (amount) => {
@@ -142,7 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		return result
 	}
 	const moveCardsIntoDOM = (cards) => {
-
 		let cardContainers = document.querySelectorAll("div.card-container")
 		if (cardContainers[0].childElementCount === 1)
 			cardContainers.forEach((cardContainer, i) => {
@@ -153,6 +149,9 @@ document.addEventListener("DOMContentLoaded", () => {
 				cardContainer.replaceChild(cards[i], cardContainer.lastChild)
 			})
 	}
-
+	document.querySelector("#game-button").addEventListener("click", (event) => {
+		event.preventDefault()
+		startGame()
+	})
 	document.querySelector(".field").addEventListener("click", createClickHandler())
 })
